@@ -49,6 +49,6 @@ ggplot(economics, aes(date, pop)) +
 **Problem 3: (3 pts)** Again using the `economics` dataset, now make a scatter plot (using `geom_point()`) of the number of unemployed versus the total population (`pop`), and color points by date.
 
 ```{r}
-ggplot(economics, aes(pop, uempmed, color = date)) +
+ggplot(economics, aes(pop, unemploy, color = date)) +
   geom_point()
 ```
