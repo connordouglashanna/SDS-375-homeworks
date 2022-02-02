@@ -51,7 +51,7 @@ ggplot(data = txhouse, aes(x = year, y = total_sales, fill = city)) +
 **Problem 3: (4 pts)** Modify the plot from Problem 2 by placing `city` bars side-by-side, rather than stacked. Next, reorder the bars for each `year` by `total_sales` in descending order. See slides from Class 4.
 
 ```{r}
-ggplot(data = txhouse, aes(fct_reorder(as.factor(year), -total_sales), y = total_sales, fill = city)) + 
+ggplot(data = txhouse, aes(x = year, y = total_sales, fill = fct_reorder(city, -total_sales))) + 
   geom_col(position = "dodge", color = "gray34")
 ```
 
