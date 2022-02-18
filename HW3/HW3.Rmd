@@ -1,0 +1,95 @@
+---
+title: "Homework 3"
+output: pdf_document
+---
+
+```{r global_options, include=FALSE}
+library(knitr)
+library(tidyverse)
+options(scipen = 999)
+opts_chunk$set(fig.align="center", fig.height=4, fig.width=5.5)
+
+# data prep:
+IL_pop <- midwest %>%
+  filter(state == "IN") %>%
+  arrange(desc(poptotal)) %>%
+  mutate(row = row_number()) %>%
+  filter(row %in% c(1, 2, 3, 4, 5, 12, 20, 25, 40, 50, 60, 75)) %>%
+  select(c(county, poptotal))
+
+```
+
+*Enter your name and EID here*
+
+Connor Hanna
+cdh3663
+
+**This homework is due on Feb. 7, 2022 at 11:00am. Please submit as a pdf file on Canvas.**
+
+
+**Problem 1: (2 pts)** For problem 1, we will work with the `diamonds` dataset. See here for details: https://ggplot2.tidyverse.org/reference/diamonds.html.
+
+```{r}
+diamonds
+```
+(a) Use ggplot to make a bar plot of the total diamond count per `color` and show the proportion of each `cut` within each `color` category. 
+(b) In two sentences, explain when to use `geom_bar()` instead of `geom_col()`. Which of these functions requires only an `x` or `y` variable?
+
+```{r}
+# a.
+ggplot(diamonds, aes(color, fill = cut)) + 
+  geom_bar()
+```
+
+(b) `geom_col()` can be used to make bar graphs where observations contain values that need to be attributed to both an `x` and `y` axis, especially when each observation requires a separate column as in the `txhouse` data from HW 2. `geom_bar()` is used when counting obervations containing certain values for a specified `x` or `y` variable. 
+
+
+**Problem 2: (4 pts)**
+For problems 2 and 3, we will work with the dataset `IL_pop` that contains Illinois state demographics and has been derived from the `midwest` dataset provided by **ggplot2**. See here for details of the original dataset: https://ggplot2.tidyverse.org/reference/midwest.html. `IL_pop` contains two columns: `county` and `poptotal` (the county's total population).
+
+```{r}
+IL_pop
+```
+
+(a) Use ggplot to make a scatter plot of `county` vs total population (column `poptotal`) and order the counties by increasing population. 
+(b) Rename the axes and set appropriate limits, breaks and labels. Note: Do not use `xlab()` or `ylab()` to label the axes.
+
+```{r}
+ggplot(IL_pop, aes(poptotal, fct_reorder(county, poptotal))) +
+  geom_jitter() + 
+  scale_x_continuous(
+    name = "total population",
+    limits = c(0, 800000),
+    breaks = c(0, 200000, 400000, 600000, 800000),
+    labels = c("0", "200,000", "400,000", "600,000", "800,000")
+  ) +
+  scale_y_discrete(
+    name = "county"
+  ) 
+  
+```
+
+**Problem 3: (4 pts)** 
+
+(a) Modify the plot from Problem 2 by changing the scale for `poptotal` to logarithmic.
+(b) Adjust the limits, breaks and labels for the logarithmic scale.
+
+```{r}
+ggplot(IL_pop, aes(poptotal, fct_reorder(county, poptotal))) +
+  geom_jitter() + 
+  scale_x_log10(
+    name = "total population",
+    limits = c(1e4, 1e6),
+    breaks = c(1e4, 3.16e4, 1e5, 3.16e5, 1e6),
+    labels = c("10,000", "31,600", "100,000", "316,000", "1,000,000")
+  ) +
+  scale_y_discrete(
+    name = "county"
+  )
+```
+
+
+
+
+
+
