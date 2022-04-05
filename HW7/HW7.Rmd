@@ -35,7 +35,11 @@ Use the color picker app from the **colorspace** package (`colorspace::choose_co
 
 ```{r}
 # creating a color space
-colorspace::choose_color(`#4D670C`)
+#colorspace::choose_color()
+
+palette <- c("#4D670C", "#25638D", "#70518E", "#7A5817")
+
+swatchplot(palette)
 ```
 
 
@@ -52,10 +56,23 @@ ggplot(midwest2, aes(popdensity, percollege, fill = state)) +
   geom_point(shape = 21, size = 3, color = "white", stroke = 0.2) +
   scale_x_log10(name = "population density") +
   scale_y_continuous(name = "percent college educated") +
-  # your color choices go here in a scale fucntion. 
+  scale_fill_manual(values = palette) +
   theme_classic(12) +
   theme(
-    # your theme customization code goes here
+    axis.text = element_text(
+      size = 12,
+      color = "black"
+    ),
+    plot.background = element_rect(
+      fill = "#FBF9F6"
+    ),
+    panel.background = element_rect(
+      fill = "#FBF9F6"
+    ),
+    legend.box.background = element_rect(
+      fill = "#FBF9F6", 
+      color = "#FBF9F6"
+    )
   )
 ```
 
@@ -67,7 +84,17 @@ For this problem, we will work with the `oceanbuoys` dataset from the `naniar` l
 
 Write a function that converts temperature from Celcius to Fahrenheit. Then, use this function and any other data wrangling code you learned from class to make a summary table of average sea temperature and air temperature (in Fahrenheit) for 1997 and 1993. The formula for converting Celcius to Fahrenheit is `Fahrenheit = (Celcius*1.8) + 32`. 
 ```{r}
-# your code goes here
+f2c <- function(oldvar){
+  oceanbuoys |>
+    mutate(new_var = (.data$oldvar*1.8) + 32
+    )
+}
+
+oceanbuoys_table <-
+  oceanbuoys |>
+    filter(year > 1993, year < 1997)
+
+summary(oceanbuoys)
 ```
 
 
